@@ -1,0 +1,315 @@
+/* app/globals.css */
+/* 此文件定义了全局样式和组件样式
+/* 包括：
+/* 1. Material Icons 字体
+/* 2. 基础样式（body等）
+/* 3. 播放器组件样式
+/* 4. 进度条和音量控制样式
+/* 5. 按钮和图标样式
+*/
+
+/* Material Icons */
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .music-player {
+    width: 550px;
+    background-color: #3c3c3c;
+    border-radius: 45px;
+    padding: 20px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 870px;
+    align-items: center;
+  }
+
+  .music-cover {
+    width: 90%;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-top: 30px;
+    aspect-ratio: 1;
+  }
+
+  .music-cover img {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    object-fit: cover;
+  }
+
+  .music-info {
+    width: 90%;
+    text-align: left;
+    margin: 30px 0;
+  }
+
+  .music-info h2 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .music-info p {
+    margin: 5px 0 0;
+    color: #c6c7c9;
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 15px 0;
+    width: 90%;
+    position: relative;
+    gap: 15px;
+  }
+
+  .progress-bar,
+  .volume-bar {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 12px;
+    background-color: #c6c7c9;
+    outline: none;
+    border-radius: 10px;
+    margin: 0;
+    flex: 1;
+  }
+
+  .time-info {
+    font-size: 16px;
+    color: #cfcfcf;
+    min-width: 45px;
+    text-align: center;
+  }
+
+  .time-info span {
+    display: inline-block;
+  }
+
+  .progress-bar::-webkit-slider-runnable-track,
+  .volume-bar::-webkit-slider-runnable-track {
+    height: 12px;
+    border-radius: 12px;
+    background: transparent;
+  }
+
+  .progress-bar::-webkit-slider-thumb,
+  .volume-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background-color: #dfe3e2;
+    cursor: pointer;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    margin-top: 0;
+  }
+
+  .progress-bar::-moz-range-thumb,
+  .volume-bar::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background-color: #dfe3e2;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+  }
+
+  .volume-icon {
+    font-family: "Material Symbols Outlined";
+    font-size: 24px;
+    color: #c6c7c9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    flex-shrink: 0;
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    margin: 15px 0;
+  }
+
+  .playback-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 30px;
+  }
+
+  .playback-buttons button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .playback-buttons button:hover {
+    color: #000;
+  }
+
+  .playback-buttons button svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* 播放按钮特殊处理 */
+  .playback-buttons button:nth-child(2) {
+    flex: 1.2;
+  }
+  .playback-buttons button:nth-child(2) svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* 音量控制容器特殊处理 */
+  .progress-container:last-child {
+    width: 90%;
+    padding: 0;
+    gap: 0;
+  }
+
+  /* 音量条特殊处理 */
+  .progress-container:last-child .volume-bar {
+    margin: 0 15px;
+  }
+}
+
+/* 编辑相关样式 */
+.edit-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.edit-panel {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 32rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* 输入框样式 */
+.input-field {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+/* 按钮样式 */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #6366f1;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #4f46e5;
+}
+
+.btn-secondary {
+  background-color: #9ca3af;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #6b7280;
+}
+
+/* 滑块样式 */
+.range-slider {
+  width: 100%;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #6366f1;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* 文件上传样式 */
+.file-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px dashed #e5e7eb;
+  border-radius: 0.375rem;
+  background: #f9fafb;
+  cursor: pointer;
+}
+
+.file-input:hover {
+  border-color: #6366f1;
+  background: #f3f4f6;
+}
