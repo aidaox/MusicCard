@@ -38,7 +38,7 @@ export default function RootLayout({
               gtag('js', new Date());
               gtag('config', 'G-95V6TTBE9N', {
                 linker: {
-                  domains: ['catpng.net', 'download.catpng.net', 'card.catpng.net', 'convert.catpng.net']
+                  domains: [ 'card.catpng.net']
                 },
                 allow_linker: true
               });
