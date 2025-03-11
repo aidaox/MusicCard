@@ -2,10 +2,9 @@
 
 [English](#english) | [中文](#chinese)
 
-> 灵感来源: 本项目受 [BeatPrints](https://github.com/TrueMyst/BeatPrints) 启发,旨在提供一个现代化的 Web 版本音乐海报生成工具。
-> Inspired by [BeatPrints](https://github.com/TrueMyst/BeatPrints), this project aims to provide a modern web-based music poster generation tool.
-
 <div id="chinese">
+
+> 灵感来源: 本项目受 [BeatPrints](https://github.com/TrueMyst/BeatPrints) 启发,旨在提供一个现代化的 Web 版本音乐海报生成工具。
 
 ## 🎵 项目介绍
 
@@ -78,7 +77,7 @@ yarn dev
 </div>
 
 <div id="english">
-
+> Inspired by [BeatPrints](https://github.com/TrueMyst/BeatPrints), this project aims to provide a modern web-based music poster generation tool.
 ## 🎵 Introduction
 
 MusicCard is an online music poster generator built with Next.js, allowing users to create beautiful visual posters for their favorite NetEase Cloud Music tracks.
