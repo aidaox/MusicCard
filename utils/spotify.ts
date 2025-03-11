@@ -21,6 +21,14 @@ const getProxiedImageUrl = (url: string) => {
   if (url.startsWith("/")) {
     return url;
   }
+  // 对于网易云音乐图片，使用特定参数优化加载
+  if (url.includes("music.126.net")) {
+    // 添加参数param=140y140表示使用更小的尺寸
+    const optimizedUrl = url.includes("?")
+      ? `${url}&param=140y140`
+      : `${url}?param=140y140`;
+    return `/api/proxy/image?url=${encodeURIComponent(optimizedUrl)}`;
+  }
   // 否则通过代理加载
   return `/api/proxy/image?url=${encodeURIComponent(url)}`;
 };
@@ -31,8 +39,23 @@ const loadImage = (url: string): Promise<HTMLImageElement> => {
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+    img.onerror = (e) => {
+      console.error(`图片加载失败: ${url}`, e);
+      reject(new Error(`Failed to load image: ${url}`));
+    };
+
+    // 设置超时，避免长时间等待
+    const timeout = setTimeout(() => {
+      reject(new Error(`Image loading timeout: ${url}`));
+    }, 10000);
+
     img.src = getProxiedImageUrl(url);
+
+    // 清除超时
+    img.onload = () => {
+      clearTimeout(timeout);
+      resolve(img);
+    };
   });
 };
 
@@ -54,6 +77,19 @@ const preloadImage = async (url: string): Promise<HTMLImageElement> => {
     return img;
   } catch (error) {
     console.error("图片加载失败:", error);
+    // 如果是第一次失败，重试一次
+    if (!url.includes("_retry")) {
+      console.log("重试加载图片:", url);
+      try {
+        const retryUrl = url + "_retry";
+        const img = await loadImage(url);
+        imageCache.set(url, img); // 使用原始URL缓存
+        return img;
+      } catch (retryError) {
+        console.error("图片重试加载失败:", retryError);
+        throw retryError;
+      }
+    }
     throw error;
   }
 };
