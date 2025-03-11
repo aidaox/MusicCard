@@ -78,6 +78,8 @@ yarn dev
 
 <div id="english">
 > Inspired by [BeatPrints](https://github.com/TrueMyst/BeatPrints), this project aims to provide a modern web-based music poster generation tool.
+
+
 ## 🎵 Introduction
 
 MusicCard is an online music poster generator built with Next.js, allowing users to create beautiful visual posters for their favorite NetEase Cloud Music tracks.
