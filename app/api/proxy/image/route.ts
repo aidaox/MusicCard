@@ -15,9 +15,21 @@ export async function GET(request: Request) {
     }
 
     // 获取图片
-    const response = await fetch(imageUrl);
+    const response = await fetch(imageUrl, {
+      // 添加超时设置，避免请求卡住
+      signal: AbortSignal.timeout(5000),
+      // 添加请求头，模拟浏览器行为，减少被拒绝的可能性
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        Referer: "http://music.163.com",
+      },
+    });
 
     if (!response.ok) {
+      console.error(
+        `图片代理请求失败: ${imageUrl}, 状态码: ${response.status}`
+      );
       return new NextResponse("Failed to fetch image", {
         status: response.status,
       });
@@ -31,12 +43,19 @@ export async function GET(request: Request) {
     return new NextResponse(imageBuffer, {
       headers: {
         "Content-Type": contentType,
-        "Cache-Control": "public, max-age=31536000",
+        // 增强缓存策略，设置更长的缓存时间和验证机制
+        "Cache-Control":
+          "public, max-age=31536000, stale-while-revalidate=86400",
+        ETag: `"${Buffer.from(imageUrl).toString("base64").substring(0, 16)}"`,
         "Access-Control-Allow-Origin": "*",
       },
     });
   } catch (error) {
     console.error("Error proxying image:", error);
+    // 如果是超时错误，返回特定的错误信息
+    if (error instanceof DOMException && error.name === "TimeoutError") {
+      return new NextResponse("Image request timed out", { status: 504 });
+    }
     return new NextResponse("Error proxying image", { status: 500 });
   }
 }
